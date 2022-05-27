@@ -1,6 +1,6 @@
 package uz.davr.security;
 
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -34,7 +34,31 @@ public class JWTTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .addClaims(claims)
+                .signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
                 .compact();
     }
+
+    public boolean validateToken(String token){
+        try {
+            Jwts.parser()
+                    .setSigningKey(SecurityConstants.SECRET)
+                    .parseClaimsJws(token);
+            return true;
+        } catch (SignatureException |
+                MalformedJwtException |
+                IllegalArgumentException |
+                ExpiredJwtException |
+                UnsupportedJwtException ex){
+                                       LOG.error(ex.getMessage());
+                                       return false;
+        }
+    }
+
+//    public Long getUserIdFromToken(String token){
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(SecurityConstants.SECRET);
+//
+//    }
+
 
 }
