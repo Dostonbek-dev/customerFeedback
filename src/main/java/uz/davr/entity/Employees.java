@@ -21,6 +21,9 @@ public class Employees {
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public Employees() {
     }
 
