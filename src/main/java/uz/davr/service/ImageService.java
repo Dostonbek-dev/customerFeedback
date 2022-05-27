@@ -1,0 +1,88 @@
+package uz.davr.service;
+
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import uz.davr.entity.Employees;
+import uz.davr.entity.ImageModel;
+import uz.davr.entity.User;
+import uz.davr.repository.EmployeeRepository;
+import uz.davr.repository.ImageRepository;
+import uz.davr.repository.PositionRepository;
+import uz.davr.repository.UserRepository;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
+
+@Service
+@RequiredArgsConstructor
+public class ImageService {
+    public static final Logger LOG = LoggerFactory.getLogger(ImageService.class);
+
+    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
+    private final PositionRepository positionRepository;
+    private final ImageRepository imageRepository;
+
+
+    public ImageModel uploadImageByEmployeePhotos(MultipartFile file, Principal principal, Long employeeId) throws IOException {
+        User user = getUserByPrincipal(principal);
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(file.getOriginalFilename());
+        imageModel.setImageBytes(compressBytes(file.getBytes()));
+        imageModel.setEmployeeId(employeeId);
+        LOG.info("Uploading image to Employee id {}", employeeId);
+        return imageRepository.save(imageModel);
+
+    }
+
+
+    public User getUserByPrincipal(Principal principal) {
+        String username = principal.getName();
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
+    }
+
+    public byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            LOG.error("Cannot compress Bytes");
+        }
+        System.out.println("Compressed Image Byte Size -" + outputStream.toByteArray());
+        return outputStream.toByteArray();
+    }
+
+    private static byte[] decompressBytes(byte[] date) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(date);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(date.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException | DataFormatException e) {
+            LOG.error("Cannot decompress Bytes");
+        }
+        return outputStream.toByteArray();
+    }
+}
