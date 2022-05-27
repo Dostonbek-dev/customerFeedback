@@ -22,8 +22,6 @@ public class User implements UserDetails {
     private String username;
     private String branchCode;
     private String password;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user",orphanRemoval = true)
-    private List<Employees> employees=new ArrayList<>();
 
     @ElementCollection(targetClass = Roles.class)
     @CollectionTable(name = "user_role",

@@ -18,6 +18,9 @@ public class Employees {
     @Column(name = "last_name")
     private String lastname;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Positions positions;
+
     @Column(updatable = false)
     private LocalDateTime createdDate;
 

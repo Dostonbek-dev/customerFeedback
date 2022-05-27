@@ -40,7 +40,7 @@ public class PositionService {
         return save;
     }
 
-    public List<Positions> getALl() {
+    public List<Positions> getAll() {
         return repository.findAll();
     }
 
