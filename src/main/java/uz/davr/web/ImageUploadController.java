@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.davr.dto.response.MessageResponse;
+import uz.davr.entity.ImageModel;
 import uz.davr.service.ImageService;
 
 import java.io.IOException;
@@ -25,6 +26,12 @@ public class ImageUploadController {
         imageService.uploadImageByEmployeePhotos(file, principal, employeeId);
         return ResponseEntity.ok(new MessageResponse("Successfully saved image"));
 
+    }
+
+    @GetMapping("/imgByEmployee/{employeeId}")
+    public ResponseEntity<ImageModel> getImageByEmployeeId(@PathVariable Long employeeId){
+        ImageModel imageByEmployeeId = imageService.getImageByEmployeeId(employeeId);
+        return ResponseEntity.ok(imageByEmployeeId);
     }
 
 }

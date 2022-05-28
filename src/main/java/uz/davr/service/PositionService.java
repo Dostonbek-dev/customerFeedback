@@ -4,10 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.PositionDto;
+import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
 import uz.davr.repository.PositionRepository;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,14 +21,23 @@ public class PositionService {
 
     public static final Logger LOG = LoggerFactory.getLogger(PositionService.class);
     private final PositionRepository repository;
+    private final ImageService imageService;
 
 
-    public String createPost(Positions positions) {
+    public String createPosition(String positions, MultipartFile file, Principal principal) throws IOException {
         Positions newPosition = new Positions();
-        positions.setName(positions.getName());
-        repository.save(positions);
-        LOG.info("Successfully created Position");
-        return "Successfully create position";
+        newPosition.setName(positions);
+        Positions save = repository.save(newPosition);
+        Long id = save.getId();
+        boolean b = imageService.saveImageByPosition(file, principal, id);
+        if (b) {
+            LOG.info("Successfully created Position");
+            return "Successfully create position";
+        } else {
+            LOG.info("Failed created Position");
+            return "Failed to created position with photos ";
+        }
+
     }
 
     public String delete(Long id) {
@@ -44,5 +59,17 @@ public class PositionService {
         return repository.findAll();
     }
 
-
+    public PositionDto getPositionById(Long positionId) {
+        Optional<Positions> positionById = repository.findById(positionId);
+        if (positionById.isPresent()) {
+            Positions positions = positionById.get();
+            ImageModel imageByPositionId = imageService.getImageByPositionId(positions.getId());
+            PositionDto positionDto = new PositionDto();
+            positionDto.setImageModel(imageByPositionId);
+            positionDto.setName(positions.getName());
+            return positionDto;
+        } else {
+            return null;
+        }
+    }
 }
