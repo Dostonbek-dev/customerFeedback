@@ -72,4 +72,18 @@ public class PositionService {
             return null;
         }
     }
+
+    public boolean deletePositionById(Long positionId) {
+        Optional<Positions> byId = repository.findById(positionId);
+        if (byId.isPresent()) {
+            Positions positions = byId.get();
+            if (imageService.deleteImageByPosition(positions.getId())) {
+                repository.deleteById(positions.getId());
+                return true;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
 }

@@ -40,6 +40,14 @@ public class PositionController {
     public ResponseEntity<?> getPositionById(@PathVariable Long positionId){
         return ResponseEntity.ok(positionService.getPositionById(positionId));
     }
+    @DeleteMapping("delete/{positionId}")
+    public ResponseEntity<?> deleteById(@PathVariable Long positionId){
+       if (positionService.deletePositionById(positionId)){
+        return ResponseEntity.ok("Delete by id successfully");
+       }else {
+           return ResponseEntity.ok("Delete failed");
+       }
+    }
 
 
 }

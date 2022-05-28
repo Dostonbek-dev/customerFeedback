@@ -116,4 +116,14 @@ public class ImageService {
         Optional<ImageModel> byPositionId = imageRepository.findByPositionId(id);
         return byPositionId.orElse(null);
     }
+
+    public boolean deleteImageByPosition(Long id) {
+        Optional<ImageModel> byPositionId = imageRepository.findByPositionId(id);
+        if (byPositionId.isPresent()){
+            imageRepository.deleteById(byPositionId.get().getId());
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
