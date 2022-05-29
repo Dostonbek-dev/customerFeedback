@@ -119,10 +119,24 @@ public class ImageService {
 
     public boolean deleteImageByPosition(Long id) {
         Optional<ImageModel> byPositionId = imageRepository.findByPositionId(id);
-        if (byPositionId.isPresent()){
+        if (byPositionId.isPresent()) {
             imageRepository.deleteById(byPositionId.get().getId());
             return true;
-        }else {
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateImageByPositionId(Long id, ImageModel file) throws IOException {
+        Optional<ImageModel> byPositionId = imageRepository.findByPositionId(id);
+        if (byPositionId.isPresent()) {
+            ImageModel imageModel = byPositionId.get();
+            imageModel.setName(file.getName());
+            imageModel.setImageBytes(compressBytes(file.getImageBytes()));
+            LOG.info("Uploading image to Employee id {}", id);
+            imageRepository.save(imageModel);
+            return true;
+        } else {
             return false;
         }
     }

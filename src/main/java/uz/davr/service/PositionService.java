@@ -40,12 +40,6 @@ public class PositionService {
 
     }
 
-    public String delete(Long id) {
-        repository.deleteById(id);
-        LOG.info("Position deleted by id ");
-        return "Position deleted by id {}";
-    }
-
     public Positions updatePosition(Long id, String positionName) {
         Positions positionById = repository.findById(id).orElseThrow(
                 () -> new RuntimeException("Position not found by ID"));
@@ -85,5 +79,17 @@ public class PositionService {
             return false;
         }
         return false;
+    }
+
+    public boolean updatePositionById(Long id, PositionDto positionDto) throws IOException {
+        Optional<Positions> positionId = repository.findById(id);
+        if (positionId.isPresent()) {
+            Positions positions = positionId.get();
+            positions.setName(positionDto.getName());
+            imageService.updateImageByPositionId(positions.getId(), positionDto.getImageModel());
+            return true;
+        } else {
+            return false;
+        }
     }
 }
