@@ -14,9 +14,6 @@ import uz.davr.entity.User;
 import uz.davr.repository.EmployeeRepository;
 import uz.davr.repository.ImageRepository;
 import uz.davr.repository.PositionRepository;
-import uz.davr.web.EmployeeController;
-
-import javax.management.relation.RoleUnresolved;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
