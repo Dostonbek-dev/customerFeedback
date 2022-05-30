@@ -14,7 +14,6 @@ public class Positions {
     @Column(unique = true)
     private String name;
     public Positions() {
-
     }
 
 }

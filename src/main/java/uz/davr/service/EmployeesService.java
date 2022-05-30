@@ -28,7 +28,12 @@ public class EmployeesService {
     private final PositionRepository positionRepository;
     private final ImageRepository imageRepository;
 
-    public EmployeeDto saveEmp(String firstname, String lastname, String parentName, Long positionId, MultipartFile file, Principal principal) throws IOException {
+    public EmployeeDto saveEmp(String firstname,
+                               String lastname,
+                               String parentName,
+                               Long positionId,
+                               MultipartFile file,
+                               Principal principal) throws IOException {
         User user = userService.getCurrentUser(principal);
         Employees employees = new Employees();
         employees.setLastname(lastname);
@@ -45,6 +50,7 @@ public class EmployeesService {
         imageModel.setName(file.getOriginalFilename());
         imageModel.setImageBytes(file.getBytes());
         imageModel.setEmployeeId(employees.getId());
+        imageModel.setPositionId(positionId);
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setFirstname(employees.getFirstname());

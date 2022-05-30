@@ -35,7 +35,9 @@ public class PositionController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> createPosition(@RequestParam String positions, @RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+    public ResponseEntity<?> createPosition(@RequestParam String positions,
+                                            @RequestParam("file") MultipartFile file,
+                                            Principal principal) throws IOException {
         return ResponseEntity.ok(positionService.createPosition(positions, file, principal));
     }
 
