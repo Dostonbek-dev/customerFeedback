@@ -63,8 +63,8 @@ public class EmployeesService {
 
     public String deleteEmp(Long id) {
         employeeRepository.deleteById(id);
-        LOG.info("Successfully deleted Employee By Id");
-        return "Successfully deleted by id !";
+        LOG.info("Employee is successfully deleted by Id! ");
+        return "Employee is successfully deleted by Id! ";
     }
 
     public List<Employees> getAllEmployees() {
@@ -92,7 +92,6 @@ public class EmployeesService {
             }
             employeeRepository.save(employees);
             return true;
-
         }else {
             return  false;
         }

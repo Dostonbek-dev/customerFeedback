@@ -31,21 +31,21 @@ public class PositionService {
         Long id = save.getId();
         boolean b = imageService.saveImageByPosition(file, principal, id);
         if (b) {
-            LOG.info("Successfully created Position");
-            return "Successfully create position";
+            LOG.info("Position is created successfully!");
+            return "Position is created successfully!";
         } else {
-            LOG.info("Failed created Position");
-            return "Failed to created position with photos ";
+            LOG.info("Position is not created!");
+            return "Position is not created with photos!";
         }
 
     }
 
     public Positions updatePosition(Long id, String positionName) {
         Positions positionById = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Position not found by ID"));
+                () -> new RuntimeException("Position is not found by Id "));
         positionById.setName(positionName);
         Positions save = repository.save(positionById);
-        LOG.info("Update Position By Id  " + id);
+        LOG.info("Position is updated by Id! " + id);
         return save;
     }
 
