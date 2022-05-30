@@ -66,7 +66,8 @@ public class EmployeesService {
         return employeeRepository.findAll();
     }
 
-    public List<EmployeeList> getEmployeesByBranchAndPositionID(Long branch, Long positionId){
-        return employeeRepository.getEmployeesByBranchAndPositionID(branch, positionId);
+    public List<EmployeeList> getEmployeesByBranchAndPositionID(String branch, Long positionId,Principal principal){
+        User currentUser = userService.getCurrentUser(principal);
+        return employeeRepository.getEmployeesByBranchAndPositionID(currentUser.getId(), positionId);
     }
 }

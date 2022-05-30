@@ -44,8 +44,9 @@ public class EmployeeController {
 
     @GetMapping("byPosition/{positionId}/{branch}")
     public List<EmployeeList> getEmployeeByUserBranchAndPositionId(@PathVariable Long positionId,
-                                                                   @PathVariable Long branch){
-        return  employeesService.getEmployeesByBranchAndPositionID(branch,positionId);
+                                                                   @PathVariable String branch,
+                                                                   Principal principal){
+        return  employeesService.getEmployeesByBranchAndPositionID(branch,positionId,principal);
     }
 
 }
