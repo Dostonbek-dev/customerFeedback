@@ -27,6 +27,12 @@ public class Employees {
 
     @Column(updatable = false)
     private LocalDateTime createdDate;
+    @Column(name = "excellent")
+    private int excellent=0;
+    @Column(name = "good")
+    private int good=0;
+    @Column(name = "bad")
+    private int bad=0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

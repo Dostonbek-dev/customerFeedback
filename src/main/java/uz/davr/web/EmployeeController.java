@@ -50,4 +50,10 @@ public class EmployeeController {
         return  employeesService.getEmployeesByBranchAndPositionID(branch,positionId,principal);
     }
 
+
+    @PostMapping("customerFeedback")
+    public ResponseEntity<?> feedbackFromCustomer(@RequestParam String ball,@RequestParam Long employeeID){
+        return ResponseEntity.ok(employeesService.feedbackFromCustomer(ball, employeeID));
+    }
+
 }

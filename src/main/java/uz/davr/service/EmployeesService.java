@@ -75,4 +75,27 @@ public class EmployeesService {
         User currentUser = userService.getCurrentUser(principal);
         return employeeRepository.getEmployeesByBranchAndPositionID(currentUser.getId(), positionId);
     }
+
+    public boolean feedbackFromCustomer(String ball,Long employeeID){
+        Optional<Employees> employeeById = employeeRepository.findById(employeeID);
+        if (employeeById.isPresent()){
+            Employees employees = employeeById.get();
+            if (ball.equals("excellent")){
+                int excellent = employees.getExcellent()+1;
+                employees.setExcellent(excellent);
+            }else  if (ball.equals("good")){
+                int excellent = employees.getGood()+1;
+                employees.setGood(excellent);
+            }else if (ball.equals("bad")){
+                int excellent = employees.getBad()+1;
+                employees.setBad(excellent);
+            }
+            employeeRepository.save(employees);
+            return true;
+
+        }else {
+            return  false;
+        }
+
+    }
 }
