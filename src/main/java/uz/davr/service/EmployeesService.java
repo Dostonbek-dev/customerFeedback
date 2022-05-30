@@ -4,13 +4,20 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import uz.davr.dto.request.EmployeeDto;
+import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.EmployeeDto;
+import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
+import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
 import uz.davr.entity.User;
 import uz.davr.repository.EmployeeRepository;
+import uz.davr.repository.ImageRepository;
 import uz.davr.repository.PositionRepository;
+import uz.davr.web.EmployeeController;
 
+import javax.management.relation.RoleUnresolved;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -22,21 +29,34 @@ public class EmployeesService {
     private final EmployeeRepository employeeRepository;
     private final UserService userService;
     private final PositionRepository positionRepository;
+    private final ImageRepository imageRepository;
 
-    public Employees saveEmp(EmployeeDto employeeDto, Principal principal) {
+    public EmployeeDto saveEmp(String firstname, String lastname, String parentName, Long positionId, MultipartFile file, Principal principal) throws IOException {
         User user = userService.getCurrentUser(principal);
-        Employees newEmp = new Employees();
-        newEmp.setFirstname(employeeDto.getFirstname());
-        newEmp.setLastname(employeeDto.getLastname());
-        newEmp.setUser(user);
-        Optional<Positions> optionalPosition = positionRepository.findById(employeeDto.getPositionId());
-        if (optionalPosition.isPresent()){
-            Positions position = optionalPosition.get();
-            newEmp.setPositions(position);
+        Employees employees = new Employees();
+        employees.setLastname(lastname);
+        employees.setFirstname(firstname);
+        employees.setParentName(parentName);
+        Optional<Positions> byId = positionRepository.findById(positionId);
+        if (byId.isPresent()) {
+            Positions positions = byId.get();
+            employees.setPositions(positions);
         }
-        Employees save = employeeRepository.save(newEmp);
-        LOG.info("Employee Successfully  saved employee");
-        return save;
+        employees.setUser(user);
+        employeeRepository.save(employees);
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(file.getOriginalFilename());
+        imageModel.setImageBytes(file.getBytes());
+        imageModel.setEmployeeId(employees.getId());
+        imageRepository.save(imageModel);
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setFirstname(employees.getFirstname());
+        employeeDto.setLastname(employees.getLastname());
+        employeeDto.setParentName(employees.getParentName());
+        employeeDto.setBranch(user.getBranchCode());
+        employeeDto.setPositionId(employees.getPositions().getId());
+        employeeDto.setImageModel(imageModel);
+        return employeeDto;
     }
 
     public String deleteEmp(Long id) {
@@ -47,5 +67,9 @@ public class EmployeesService {
 
     public List<Employees> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public List<EmployeeList> getEmployeesByBranchAndPositionID(Long branch, Long positionId){
+        return employeeRepository.getEmployeesByBranchAndPositionID(branch, positionId);
     }
 }

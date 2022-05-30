@@ -1,5 +1,6 @@
 package uz.davr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,14 +18,18 @@ public class Employees {
     private String firstname;
     @Column(name = "last_name")
     private String lastname;
+    @Column(name = "parent_name")
+    private String parentName;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Positions positions;
 
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     public Employees() {

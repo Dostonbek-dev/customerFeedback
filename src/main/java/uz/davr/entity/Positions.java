@@ -13,7 +13,6 @@ public class Positions {
     private Long id;
     @Column(unique = true)
     private String name;
-
     public Positions() {
 
     }

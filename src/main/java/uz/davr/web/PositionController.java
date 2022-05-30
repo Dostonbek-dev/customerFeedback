@@ -19,6 +19,7 @@ import java.security.Principal;
  */
 @RestController
 @RequestMapping("/api/position")
+@CrossOrigin
 public class PositionController {
 
     private final PositionService positionService;
