@@ -50,7 +50,6 @@ public class EmployeesService {
         imageModel.setName(file.getOriginalFilename());
         imageModel.setImageBytes(file.getBytes());
         imageModel.setEmployeeId(employees.getId());
-        imageModel.setPositionId(positionId);
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setFirstname(employees.getFirstname());
