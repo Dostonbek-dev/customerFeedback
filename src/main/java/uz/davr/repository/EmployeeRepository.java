@@ -28,7 +28,9 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
     List<EmployeeList> getEmployeesByBranchAndPositionID(@Param("user_id") Long user_id,
                                                          @Param("position_id") Long position_id);
 
-    @Query(value = "select * from employees e join position p on p.id = e.positions_id where p.id = :id", nativeQuery = true)
+    @Query(value = "select e.first_name, e.last_name, e.parent_name, p.name as position_name, img.name as image_name  " +
+            "from employees e join position p on p.id = e.positions_id " +
+            "join image_model img  on img.employee_id = e.id where p.id = :id", nativeQuery = true)
     List<EmployeeList> getAllEmployeesByPosition(@Param("id") Long id);
 
     @Query(value = "select count(*) from employees", nativeQuery = true)
@@ -42,4 +44,15 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
 
     @Query(value = "select sum(bad) from employees", nativeQuery = true)
     int sumBadAmount();
+
+    @Query(value = "select sum(excellent) from employees where user_id = :userId ", nativeQuery = true)
+    int sumExByUser(@Param(value = "userId") Long userId);
+
+    @Query(value = "select sum(good) from employees where user_id = :userId", nativeQuery = true)
+    int sumGoodByUser(@Param(value = "userId") Long userId);
+
+    @Query(value = "select sum(bad) from employees where user_id = :userId", nativeQuery = true)
+    int sumBadByUser(@Param(value = "userId") Long userId);
+
+
 }

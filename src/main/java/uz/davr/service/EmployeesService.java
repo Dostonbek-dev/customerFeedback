@@ -116,4 +116,16 @@ public class EmployeesService {
     public int sumBadAmount(){
         return employeeRepository.sumBadAmount();
     }
+
+    public int sumExByUser(Long userId){
+        return employeeRepository.sumExByUser(userId);
+    }
+
+    public int sumGoodByUser(Long userId){
+        return employeeRepository.sumGoodByUser(userId);
+    }
+
+    public int sumBadByUser(Long userId){
+        return employeeRepository.sumBadByUser(userId);
+    }
 }
