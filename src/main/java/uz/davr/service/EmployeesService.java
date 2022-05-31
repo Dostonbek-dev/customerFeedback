@@ -33,6 +33,7 @@ public class EmployeesService {
                                String parentName,
                                Long positionId,
                                MultipartFile file,
+                               String phone,
                                Principal principal) throws IOException {
         User user = userService.getCurrentUser(principal);
         Employees employees = new Employees();
@@ -44,6 +45,7 @@ public class EmployeesService {
             Positions positions = byId.get();
             employees.setPositions(positions);
         }
+        employees.setPhone(phone);
         employees.setUser(user);
         employeeRepository.save(employees);
         ImageModel imageModel = new ImageModel();
@@ -52,6 +54,7 @@ public class EmployeesService {
         imageModel.setEmployeeId(employees.getId());
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setPhone(employees.getPhone());
         employeeDto.setFirstname(employees.getFirstname());
         employeeDto.setLastname(employees.getLastname());
         employeeDto.setParentName(employees.getParentName());

@@ -35,8 +35,9 @@ public class EmployeeController {
                                        @RequestParam String parentName,
                                        @RequestParam Long positionId,
                                        @RequestParam MultipartFile file,
+                                       @RequestParam String phone,
                                        Principal principal) throws IOException {
-        return ResponseEntity.ok(employeesService.saveEmp(firstname, lastname, parentName, positionId, file, principal));
+        return ResponseEntity.ok(employeesService.saveEmp(firstname, lastname, parentName, positionId, file,phone, principal));
     }
 
     @GetMapping("/all")
