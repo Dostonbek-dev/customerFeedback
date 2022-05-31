@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.PositionByCountNumber;
 import uz.davr.dto.response.PositionDto;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
@@ -91,5 +92,8 @@ public class PositionService {
         } else {
             return false;
         }
+    }
+    public List<PositionByCountNumber> getPositionByCount(){
+       return repository.getPositionByCountFeedBack();
     }
 }

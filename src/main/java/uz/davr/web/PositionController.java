@@ -3,6 +3,7 @@ package uz.davr.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.PositionByCountNumber;
 import uz.davr.dto.response.PositionDto;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
@@ -11,6 +12,7 @@ import uz.davr.service.PositionService;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by Oybek Karimjanov
@@ -75,6 +77,10 @@ public class PositionController {
             return ResponseEntity.ok(false);
         }
 
+    }
+    @GetMapping("/positionByCount")
+    public List<PositionByCountNumber> getPositionByCount(){
+        return positionService.getPositionByCount();
     }
 
 
