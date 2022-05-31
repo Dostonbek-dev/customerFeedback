@@ -120,15 +120,18 @@ public class EmployeesService {
         return employeeRepository.sumBadAmount();
     }
 
-    public int sumExByUser(Long userId){
-        return employeeRepository.sumExByUser(userId);
+    public int sumExByUser(Principal principal){
+        User user = userService.getCurrentUser(principal);
+        return employeeRepository.sumExByUser(user.getId());
     }
 
-    public int sumGoodByUser(Long userId){
-        return employeeRepository.sumGoodByUser(userId);
+    public int sumGoodByUser(Principal principal){
+        User user = userService.getCurrentUser(principal);
+        return employeeRepository.sumGoodByUser(user.getId());
     }
 
-    public int sumBadByUser(Long userId){
-        return employeeRepository.sumBadByUser(userId);
+    public int sumBadByUser(Principal principal){
+        User user = userService.getCurrentUser(principal);
+        return employeeRepository.sumBadByUser(user.getId());
     }
 }

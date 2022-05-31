@@ -2,6 +2,7 @@ package uz.davr.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import uz.davr.entity.User;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from users", nativeQuery = true)
     int getCountOfUsers();
 
+    @Query(value = "select roles from user_role where user_id = :id", nativeQuery = true)
+    String getUserRole(@Param(value = "id") Long id);
 
 }

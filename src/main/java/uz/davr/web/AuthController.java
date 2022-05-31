@@ -52,7 +52,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt, userService.getByBranchCode(loginRequest.getUsername())));
+        return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt, userService.getByBranchCode(loginRequest.getUsername()), userService.getUserRole(userService.findByUsername(loginRequest.getUsername()).getId())));
     }
 
 

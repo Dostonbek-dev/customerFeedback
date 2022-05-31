@@ -82,19 +82,19 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.sumBadAmount());
     }
 
-    @GetMapping("/sum-ex-user/{userId}")
-    public ResponseEntity<?> getSumExByUser(@PathVariable Long userId){
-        return ResponseEntity.ok(employeesService.sumExByUser(userId));
+    @GetMapping("/sum-ex-user")
+    public ResponseEntity<?> getSumExByUser(Principal principal){
+        return ResponseEntity.ok(employeesService.sumExByUser(principal));
     }
 
-    @GetMapping("/sum-good-user/{userId}")
-    public ResponseEntity<?> getSumGoodByUser(@PathVariable Long userId){
-        return ResponseEntity.ok(employeesService.sumGoodByUser(userId));
+    @GetMapping("/sum-good-user")
+    public ResponseEntity<?> getSumGoodByUser(Principal principal){
+        return ResponseEntity.ok(employeesService.sumGoodByUser(principal));
     }
 
-    @GetMapping("/sum-bad-user/{userId}")
-    public ResponseEntity<?> getSumBadByUser(@PathVariable Long userId){
-        return ResponseEntity.ok(employeesService.sumBadByUser(userId));
+    @GetMapping("/sum-bad-user")
+    public ResponseEntity<?> getSumBadByUser(Principal principal){
+        return ResponseEntity.ok(employeesService.sumBadByUser(principal));
     }
 
 
