@@ -41,7 +41,7 @@ public class PositionController {
         return ResponseEntity.ok(positionService.createPosition(positions, file, principal));
     }
 
-    @GetMapping("/position{positionId}")
+    @GetMapping("/position/{positionId}")
     public ResponseEntity<?> getPositionById(@PathVariable Long positionId) {
         return ResponseEntity.ok(positionService.getPositionById(positionId));
     }
@@ -62,9 +62,11 @@ public class PositionController {
         PositionDto positionDto = new PositionDto();
         positionDto.setName(name);
         ImageModel imageModel = new ImageModel();
-        imageModel.setPositionId(positionId);
-        imageModel.setImageBytes(file.getBytes());
-        imageModel.setName(file.getOriginalFilename());
+        if (file.isEmpty()) {
+            imageModel.setPositionId(positionId);
+            imageModel.setImageBytes(file.getBytes());
+            imageModel.setName(file.getOriginalFilename());
+        }
         positionDto.setImageModel(imageModel);
         boolean result = positionService.updatePositionById(positionId, positionDto);
         if (result) {

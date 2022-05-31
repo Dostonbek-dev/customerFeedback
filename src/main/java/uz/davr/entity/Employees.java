@@ -33,6 +33,8 @@ public class Employees {
     private int good=0;
     @Column(name = "bad")
     private int bad=0;
+    @Column(name = "phone")
+    private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.davr.dto.request.SignupRequest;
 import uz.davr.dto.request.UserDto;
+import uz.davr.dto.response.CountStatus;
 import uz.davr.entity.User;
 import uz.davr.entity.enums.Roles;
 import uz.davr.exeptions.UserExistException;
@@ -18,6 +19,7 @@ import javax.management.relation.Role;
 import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -88,6 +90,19 @@ public class UserService {
                 .stream()
                 .map(userFacade::userToUserDTO)
                 .collect(Collectors.toList());
+    }
+
+    public CountStatus getCountOfUsers(){
+        return userRepository.getCountOfUsers();
+    }
+
+    public String getUserRole(Long id){
+        return userRepository.getUserRole(id);
+    }
+
+    public User findByUsername(String username){
+        Optional<User> user = userRepository.findUserByUsername(username);
+        return user.orElse(null);
     }
 
 }

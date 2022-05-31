@@ -32,10 +32,10 @@ public class PositionService {
         boolean b = imageService.saveImageByPosition(file, principal, id);
         if (b) {
             LOG.info("Position is created successfully!");
-            return "Position is created successfully!";
+            return new String("\"Position is created successfully!\"");
         } else {
             LOG.info("Position is not created!");
-            return "Position is not created with photos!";
+            return new String("Position is not created!");
         }
 
     }

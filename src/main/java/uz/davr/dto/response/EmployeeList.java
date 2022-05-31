@@ -24,4 +24,5 @@ public interface EmployeeList {
      String getposition_name();
 
      Long getposition_id();
+
 }
