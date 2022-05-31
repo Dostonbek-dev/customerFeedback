@@ -41,7 +41,7 @@ public class PositionController {
         return ResponseEntity.ok(positionService.createPosition(positions, file, principal));
     }
 
-    @GetMapping("/position{positionId}")
+    @GetMapping("/position/{positionId}")
     public ResponseEntity<?> getPositionById(@PathVariable Long positionId) {
         return ResponseEntity.ok(positionService.getPositionById(positionId));
     }
