@@ -51,10 +51,14 @@ public class EmployeeController {
         return  employeesService.getEmployeesByBranchAndPositionID(branch,positionId,principal);
     }
 
-
     @PostMapping("customerFeedback")
     public ResponseEntity<?> feedbackFromCustomer(@RequestParam String ball,@RequestParam Long employeeID){
         return ResponseEntity.ok(employeesService.feedbackFromCustomer(ball, employeeID));
+    }
+
+    @GetMapping("/getEmpByPosition/{id}")
+    public ResponseEntity<?> getEmpByPosition(@PathVariable Long id){
+        return ResponseEntity.ok(employeesService.getAllEmployeesByPosition(id));
     }
 
 }

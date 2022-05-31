@@ -102,6 +102,9 @@ public class EmployeesService {
         }else {
             return  false;
         }
+    }
 
+    public List<EmployeeList> getAllEmployeesByPosition(Long id){
+        return employeeRepository.getAllEmployeesByPosition(id);
     }
 }

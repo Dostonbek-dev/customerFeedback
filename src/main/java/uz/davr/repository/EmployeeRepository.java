@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
 
@@ -26,4 +27,8 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
             nativeQuery = true)
     List<EmployeeList> getEmployeesByBranchAndPositionID(@Param("user_id") Long user_id,
                                                          @Param("position_id") Long position_id);
+
+    @Query(value = "select * from employees e join position p on p.id = e.positions_id where p.id = :id", nativeQuery = true)
+    List<EmployeeList> getAllEmployeesByPosition(@Param("id") Long id);
+
 }
