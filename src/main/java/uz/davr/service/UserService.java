@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.davr.dto.request.SignupRequest;
 import uz.davr.dto.request.UserDto;
+import uz.davr.dto.response.CountStatus;
 import uz.davr.entity.User;
 import uz.davr.entity.enums.Roles;
 import uz.davr.exeptions.UserExistException;
@@ -91,7 +92,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public int getCountOfUsers(){
+    public CountStatus getCountOfUsers(){
         return userRepository.getCountOfUsers();
     }
 
