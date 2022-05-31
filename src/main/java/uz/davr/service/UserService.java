@@ -11,10 +11,14 @@ import uz.davr.dto.request.UserDto;
 import uz.davr.entity.User;
 import uz.davr.entity.enums.Roles;
 import uz.davr.exeptions.UserExistException;
+import uz.davr.facade.UserFacade;
 import uz.davr.repository.UserRepository;
 
 import javax.management.relation.Role;
 import java.security.Principal;
+import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Oybek Karimjanov
@@ -29,6 +33,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserFacade userFacade;
 
     public User createUser(SignupRequest userIn){
         User user = new User();
@@ -48,11 +53,13 @@ public class UserService {
 
     public User updateUser(UserDto userDto, Principal principal){
         User user = getUserByPrincipal(principal);
-        user.setBranchCode(userDto.getLastname());
+        user.setUsername(userDto.getUsername());
+        user.setBranchCode(userDto.getBranchCode());
 
         return userRepository.save(user);
 
     }
+
 
     public User getCurrentUser(Principal principal){
         return getUserByPrincipal(principal);
@@ -73,6 +80,14 @@ public class UserService {
         User user = userRepository.findUserByUsername(branchName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found !" + branchName));
         return user.getBranchCode();
+    }
+
+    public List<UserDto> getAllBranches(){
+        List<User> all = userRepository.findAll();
+        return all
+                .stream()
+                .map(userFacade::userToUserDTO)
+                .collect(Collectors.toList());
     }
 
 }

@@ -15,7 +15,7 @@ public class UserFacade {
     public UserDto userToUserDTO(User user){
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
-        userDto.setLastname(user.getBranchCode());
+        userDto.setBranchCode(user.getBranchCode());
         userDto.setUsername(user.getUsername());
         return userDto;
     }

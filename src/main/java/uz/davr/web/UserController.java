@@ -40,6 +40,11 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all")
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllBranches());
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserProfile(@PathVariable("userId") String userId) {
         User user = userService.getUserById(Long.parseLong(userId));

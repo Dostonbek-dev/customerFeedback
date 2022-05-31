@@ -14,7 +14,6 @@ public class UserDto {
 
     private Long id;
     @NotEmpty
-    private String lastname;
     private String username;
-    private String bio;
+    private String branchCode;
 }
