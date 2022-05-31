@@ -18,6 +18,7 @@ import javax.management.relation.Role;
 import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -92,6 +93,15 @@ public class UserService {
 
     public int getCountOfUsers(){
         return userRepository.getCountOfUsers();
+    }
+
+    public String getUserRole(Long id){
+        return userRepository.getUserRole(id);
+    }
+
+    public User findByUsername(String username){
+        Optional<User> user = userRepository.findUserByUsername(username);
+        return user.orElse(null);
     }
 
 }
