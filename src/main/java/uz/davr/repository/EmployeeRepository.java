@@ -31,4 +31,15 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
     @Query(value = "select * from employees e join position p on p.id = e.positions_id where p.id = :id", nativeQuery = true)
     List<EmployeeList> getAllEmployeesByPosition(@Param("id") Long id);
 
+    @Query(value = "select count(*) from employees", nativeQuery = true)
+    int getEmployeesCount();
+
+    @Query(value = "select sum(excellent) from employees", nativeQuery = true)
+    int sumExcellentAmount();
+
+    @Query(value = "select sum(good) from employees", nativeQuery = true)
+    int sumGoodAmount();
+
+    @Query(value = "select sum(bad) from employees", nativeQuery = true)
+    int sumBadAmount();
 }

@@ -61,4 +61,24 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.getAllEmployeesByPosition(id));
     }
 
+    @GetMapping("/get-count-emp")
+    public ResponseEntity<?> getCountEmp(){
+        return ResponseEntity.ok(employeesService.getCountOfEmp());
+    }
+
+    @GetMapping("/sum-excellent")
+    public ResponseEntity<?> getSumExcellent(){
+        return ResponseEntity.ok(employeesService.sumExAmount());
+    }
+
+    @GetMapping("/sum-good")
+    public ResponseEntity<?> getSumGood(){
+        return ResponseEntity.ok(employeesService.sumGoodAmount());
+    }
+
+    @GetMapping("/sum-bad")
+    public ResponseEntity<?> getSumBad(){
+        return ResponseEntity.ok(employeesService.sumBadAmount());
+    }
+
 }

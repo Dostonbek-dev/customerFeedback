@@ -100,4 +100,20 @@ public class EmployeesService {
     public List<EmployeeList> getAllEmployeesByPosition(Long id){
         return employeeRepository.getAllEmployeesByPosition(id);
     }
+
+    public int getCountOfEmp(){
+        return employeeRepository.getEmployeesCount();
+    }
+
+    public int sumExAmount(){
+        return employeeRepository.sumExcellentAmount();
+    }
+
+    public int sumGoodAmount(){
+        return employeeRepository.sumGoodAmount();
+    }
+
+    public int sumBadAmount(){
+        return employeeRepository.sumBadAmount();
+    }
 }
