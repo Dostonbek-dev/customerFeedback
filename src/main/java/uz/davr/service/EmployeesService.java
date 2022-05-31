@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.EmpDto;
 import uz.davr.dto.response.EmployeeDto;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
@@ -133,5 +134,25 @@ public class EmployeesService {
     public int sumBadByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumBadByUser(user.getId());
+    }
+
+    public Employees getById(Long id) {
+        Optional<Employees> byId = employeeRepository.findById(id);
+        return byId.orElse(null);
+
+    }
+
+    public Employees updateEmployee(Long empId, EmpDto empDto) {
+        Optional<Employees> byId = employeeRepository.findById(empId);
+        if (byId.isPresent()){
+            Employees employees = byId.get();
+            employees.setPhone(empDto.getPhone());
+            employees.setParentName(empDto.getParentName());
+            employees.setFirstname(empDto.getFirstname());
+            employees.setLastname(empDto.getLastname());
+            employeeRepository.save(employees);
+            return employees;
+        }
+        else return null;
     }
 }

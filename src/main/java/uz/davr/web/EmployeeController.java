@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.EmpDto;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
 import uz.davr.service.EmployeesService;
@@ -97,5 +98,15 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.sumBadByUser(principal));
     }
 
+    @GetMapping("/employeeById/{empId}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable  String empId){
+        return ResponseEntity.ok(employeesService.getById(Long.parseLong(empId)));
+    }
+
+    @PutMapping("/updateEmployee/{empId}")
+    public ResponseEntity<?> updateEmployee(@PathVariable Long empId , @RequestBody EmpDto empDto){
+       return ResponseEntity.ok( employeesService.updateEmployee(empId,empDto));
+
+    }
 
 }
