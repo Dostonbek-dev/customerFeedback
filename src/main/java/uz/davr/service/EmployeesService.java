@@ -85,15 +85,22 @@ public class EmployeesService {
         Optional<Employees> employeeById = employeeRepository.findById(employeeID);
         if (employeeById.isPresent()){
             Employees employees = employeeById.get();
-            if (ball.equals("excellent")){
-                int excellent = employees.getExcellent()+1;
-                employees.setExcellent(excellent);
-            }else  if (ball.equals("good")){
-                int excellent = employees.getGood()+1;
-                employees.setGood(excellent);
-            }else if (ball.equals("bad")){
-                int excellent = employees.getBad()+1;
-                employees.setBad(excellent);
+            switch (ball) {
+                case "excellent": {
+                    int excellent = employees.getExcellent() + 1;
+                    employees.setExcellent(excellent);
+                    break;
+                }
+                case "good": {
+                    int excellent = employees.getGood() + 1;
+                    employees.setGood(excellent);
+                    break;
+                }
+                case "bad": {
+                    int excellent = employees.getBad() + 1;
+                    employees.setBad(excellent);
+                    break;
+                }
             }
             employeeRepository.save(employees);
             return true;
