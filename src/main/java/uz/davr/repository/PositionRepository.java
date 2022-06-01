@@ -18,6 +18,6 @@ public interface PositionRepository extends JpaRepository<Positions, Long> {
             "     position pos\n" +
             "where emp.positions_id = pos.id\n" +
             "group by pos.name, pos.id\n" +
-            "order by counter DESC",nativeQuery = true)
+            "order by counter DESC limit 1 ",nativeQuery = true)
     List<PositionByCountNumber> getPositionByCountFeedBack();
 }
