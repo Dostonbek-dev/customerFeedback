@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.CountStatus;
 import uz.davr.dto.response.EmpDto;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.dto.response.MessageResponse;
@@ -12,6 +13,7 @@ import uz.davr.service.EmployeesService;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.security.PublicKey;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class EmployeeController {
                                        @RequestParam MultipartFile file,
                                        @RequestParam String phone,
                                        Principal principal) throws IOException {
-        return ResponseEntity.ok(employeesService.saveEmp(firstname, lastname, parentName, positionId, file,phone, principal));
+        return ResponseEntity.ok(employeesService.saveEmp(firstname, lastname, parentName, positionId, file, phone, principal));
     }
 
     @GetMapping("/all")
@@ -50,86 +52,102 @@ public class EmployeeController {
     @GetMapping("/byPosition/{positionId}/{branch}")
     public List<EmployeeList> getEmployeeByUserBranchAndPositionId(@PathVariable Long positionId,
                                                                    @PathVariable String branch,
-                                                                   Principal principal){
-        return  employeesService.getEmployeesByBranchAndPositionID(branch,positionId,principal);
+                                                                   Principal principal) {
+        return employeesService.getEmployeesByBranchAndPositionID(branch, positionId, principal);
     }
 
     @PostMapping("customerFeedback")
-    public ResponseEntity<?> feedbackFromCustomer(@RequestParam String ball,@RequestParam Long employeeID){
+    public ResponseEntity<?> feedbackFromCustomer(@RequestParam String ball, @RequestParam Long employeeID) {
         return ResponseEntity.ok(employeesService.feedbackFromCustomer(ball, employeeID));
     }
 
     @GetMapping("/getEmpByPosition/{id}")
-    public ResponseEntity<?> getEmpByPosition(@PathVariable Long id){
+    public ResponseEntity<?> getEmpByPosition(@PathVariable Long id) {
         return ResponseEntity.ok(employeesService.getAllEmployeesByPosition(id));
     }
 
     @GetMapping("/get-count-emp")
-    public ResponseEntity<?> getCountEmp(){
+    public ResponseEntity<?> getCountEmp() {
         return ResponseEntity.ok(employeesService.getCountOfEmp());
     }
 
     @GetMapping("/sum-excellent")
-    public ResponseEntity<?> getSumExcellent(){
+    public ResponseEntity<?> getSumExcellent() {
         return ResponseEntity.ok(employeesService.sumExAmount());
     }
 
     @GetMapping("/sum-good")
-    public ResponseEntity<?> getSumGood(){
+    public ResponseEntity<?> getSumGood() {
         return ResponseEntity.ok(employeesService.sumGoodAmount());
     }
 
     @GetMapping("/sum-bad")
-    public ResponseEntity<?> getSumBad(){
+    public ResponseEntity<?> getSumBad() {
         return ResponseEntity.ok(employeesService.sumBadAmount());
     }
 
     @GetMapping("/sum-ex-user")
-    public ResponseEntity<?> getSumExByUser(Principal principal){
+    public ResponseEntity<?> getSumExByUser(Principal principal) {
         return ResponseEntity.ok(employeesService.sumExByUser(principal));
     }
 
     @GetMapping("/sum-good-user")
-    public ResponseEntity<?> getSumGoodByUser(Principal principal){
+    public ResponseEntity<?> getSumGoodByUser(Principal principal) {
         return ResponseEntity.ok(employeesService.sumGoodByUser(principal));
     }
 
     @GetMapping("/sum-bad-user")
-    public ResponseEntity<?> getSumBadByUser(Principal principal){
+    public ResponseEntity<?> getSumBadByUser(Principal principal) {
         return ResponseEntity.ok(employeesService.sumBadByUser(principal));
     }
 
     @GetMapping("/employeeById/{empId}")
-    public ResponseEntity<?> getEmployeeById(@PathVariable  String empId){
+    public ResponseEntity<?> getEmployeeById(@PathVariable String empId) {
         return ResponseEntity.ok(employeesService.getById(Long.parseLong(empId)));
     }
 
     @PutMapping("/updateEmployee/{empId}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long empId ,
+    public ResponseEntity<?> updateEmployee(@PathVariable Long empId,
                                             @RequestParam String firstname,
                                             @RequestParam String lastname,
                                             @RequestParam String parentName,
                                             @RequestParam String positions,
                                             @RequestParam String phone
-                                            ){
-        EmpDto empDto=new EmpDto();
+    ) {
+        EmpDto empDto = new EmpDto();
         empDto.setFirstname(firstname);
         empDto.setLastname(lastname);
         empDto.setPhone(phone);
         empDto.setParentName(parentName);
-       return ResponseEntity.ok( employeesService.updateEmployee(empId,empDto));
+        return ResponseEntity.ok(employeesService.updateEmployee(empId, empDto));
 
     }
 
     @GetMapping("/get-fio-result")
-    public ResponseEntity<?> getFIOAndResult(){
+    public ResponseEntity<?> getFIOAndResult() {
         return ResponseEntity.ok(employeesService.getFIOAndResult());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponse> deleteEmployee(@PathVariable Long id){
+    public ResponseEntity<MessageResponse> deleteEmployee(@PathVariable Long id) {
         MessageResponse messageResponse = employeesService.deleteEmp(id);
         return ResponseEntity.ok(messageResponse);
+    }
+
+    @GetMapping("/byBranchEmployee")
+    public ResponseEntity<CountStatus> getAllEmployeeByBranch(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllEmployeeByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
+    }
+    @GetMapping("/branchExcellent")
+    public ResponseEntity<CountStatus> getAllBranchExcellent(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllExcellentByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
+    }
+    @GetMapping("/branchBad")
+    public ResponseEntity<CountStatus> getAllBranchEBad(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllBadByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
     }
 
 }

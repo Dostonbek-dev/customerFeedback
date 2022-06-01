@@ -9,6 +9,7 @@ import uz.davr.dto.response.PositionByCountNumber;
 import uz.davr.dto.response.PositionDto;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
+import uz.davr.entity.User;
 import uz.davr.repository.PositionRepository;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class PositionService {
     public static final Logger LOG = LoggerFactory.getLogger(PositionService.class);
     private final PositionRepository repository;
     private final ImageService imageService;
+    private final UserService userService;
 
 
     public String createPosition(String positions, MultipartFile file, Principal principal) throws IOException {
@@ -95,5 +97,10 @@ public class PositionService {
     }
     public List<PositionByCountNumber> getPositionByCount(){
        return repository.getPositionByCountFeedBack();
+    }
+
+    public List<PositionByCountNumber> getPositionByCountBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        return repository.getPositionByCountFeedBackBranch(currentUser.getId());
     }
 }

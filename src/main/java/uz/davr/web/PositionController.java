@@ -83,5 +83,10 @@ public class PositionController {
         return positionService.getPositionByCount();
     }
 
+    @GetMapping("/positionByCountBranch")
+    public List<PositionByCountNumber> getPositionByCountBranch(Principal principal){
+        return positionService.getPositionByCountBranch(principal);
+    }
+
 
 }

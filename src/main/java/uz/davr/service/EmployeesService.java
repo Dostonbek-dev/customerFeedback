@@ -175,4 +175,22 @@ public class EmployeesService {
     public List<EmpFIOAndResult> getFIOAndResult(){
         return employeeRepository.getFIOAndResult();
     }
+
+    public CountStatus getAllEmployeeByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+       return employeeRepository.getAllEmployeeByBranch(currentUser.getId());
+    }
+    public CountStatus getAllExcellentByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        return employeeRepository.getAllExcellentBranch(currentUser.getId());
+    }
+    public CountStatus getAllBadByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        return employeeRepository.getAllBadBranch(currentUser.getId());
+    }
+
+    public List<EmployeeListByBranch>  employeeListByBranch(){
+        return employeeRepository.employeeListByBranch();
+    }
+
 }
