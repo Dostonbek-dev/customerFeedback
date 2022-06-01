@@ -46,7 +46,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.getAllEmployees());
     }
 
-    @GetMapping("byPosition/{positionId}/{branch}")
+    @GetMapping("/byPosition/{positionId}/{branch}")
     public List<EmployeeList> getEmployeeByUserBranchAndPositionId(@PathVariable Long positionId,
                                                                    @PathVariable String branch,
                                                                    Principal principal){
@@ -118,6 +118,11 @@ public class EmployeeController {
         empDto.setParentName(parentName);
        return ResponseEntity.ok( employeesService.updateEmployee(empId,empDto));
 
+    }
+
+    @GetMapping("/get-fio-result")
+    public ResponseEntity<?> getFIOAndResult(){
+        return ResponseEntity.ok(employeesService.getFIOAndResult());
     }
 
 }

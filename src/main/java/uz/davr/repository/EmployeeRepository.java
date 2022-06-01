@@ -4,12 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
 import uz.davr.dto.response.CountStatus;
+import uz.davr.dto.response.EmpFIOAndResult;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
 
-import java.security.Principal;
 import java.util.List;
 
 @Repository
@@ -55,6 +54,9 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
 
     @Query(value = "select sum(bad)  as counter from employees where user_id = :userId", nativeQuery = true)
     CountStatus sumBadByUser(@Param(value = "userId") Long userId);
+
+    @Query(value = "select * from employees", nativeQuery = true)
+    List<EmpFIOAndResult> getFIOAndResult();
 
 
 }

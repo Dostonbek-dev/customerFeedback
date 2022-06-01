@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import uz.davr.dto.response.CountStatus;
-import uz.davr.dto.response.EmpDto;
-import uz.davr.dto.response.EmployeeDto;
-import uz.davr.dto.response.EmployeeList;
+import uz.davr.dto.response.*;
 import uz.davr.entity.Employees;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
@@ -162,5 +159,9 @@ public class EmployeesService {
             return employees;
         }
         else return null;
+    }
+
+    public List<EmpFIOAndResult> getFIOAndResult(){
+        return employeeRepository.getFIOAndResult();
     }
 }
