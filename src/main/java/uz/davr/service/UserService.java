@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.davr.dto.request.SignupRequest;
 import uz.davr.dto.request.UserDto;
+import uz.davr.dto.response.BranchByFeedBackCount;
+import uz.davr.dto.response.BranchByFeedBackLevel;
+import uz.davr.dto.response.CountStatus;
 import uz.davr.entity.User;
 import uz.davr.entity.enums.Roles;
 import uz.davr.exeptions.UserExistException;
@@ -36,7 +39,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserFacade userFacade;
 
-    public User createUser(SignupRequest userIn){
+    public User createUser(SignupRequest userIn) {
         User user = new User();
         user.setBranchCode(userIn.getBranchCode());
         user.setUsername(userIn.getBranchName());
@@ -52,7 +55,7 @@ public class UserService {
         }
     }
 
-    public User updateUser(UserDto userDto, Principal principal){
+    public User updateUser(UserDto userDto, Principal principal) {
         User user = getUserByPrincipal(principal);
         user.setUsername(userDto.getUsername());
         user.setBranchCode(userDto.getBranchCode());
@@ -62,11 +65,11 @@ public class UserService {
     }
 
 
-    public User getCurrentUser(Principal principal){
+    public User getCurrentUser(Principal principal) {
         return getUserByPrincipal(principal);
     }
 
-    private User getUserByPrincipal(Principal principal){
+    private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
         return userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
@@ -74,16 +77,16 @@ public class UserService {
 
 
     public User getUserById(Long id) {
-       return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public String getByBranchCode(String branchName){
+    public String getByBranchCode(String branchName) {
         User user = userRepository.findUserByUsername(branchName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found !" + branchName));
         return user.getBranchCode();
     }
 
-    public List<UserDto> getAllBranches(){
+    public List<UserDto> getAllBranches() {
         List<User> all = userRepository.findAll();
         return all
                 .stream()
@@ -91,17 +94,25 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public int getCountOfUsers(){
+    public CountStatus getCountOfUsers() {
         return userRepository.getCountOfUsers();
     }
 
-    public String getUserRole(Long id){
+    public String getUserRole(Long id) {
         return userRepository.getUserRole(id);
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         Optional<User> user = userRepository.findUserByUsername(username);
         return user.orElse(null);
+    }
+
+
+    public List<BranchByFeedBackCount> getBranchByFeedBackCount() {
+      return   userRepository.getBranchByFeedBackCount();
+    }
+    public List<BranchByFeedBackLevel> branchByFeedBackLevel(){
+        return userRepository.branchByFeedBackLevel();
     }
 
 }

@@ -16,4 +16,7 @@ public class Positions {
     public Positions() {
     }
 
+    public Positions(Long positionId, String positionName) {
+
+    }
 }

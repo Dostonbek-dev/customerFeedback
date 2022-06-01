@@ -7,6 +7,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.davr.dto.request.UserDto;
+import uz.davr.dto.response.BranchByFeedBackCount;
+import uz.davr.dto.response.BranchByFeedBackLevel;
 import uz.davr.entity.User;
 import uz.davr.facade.UserFacade;
 import uz.davr.repository.validations.ResponseErrorValidation;
@@ -14,6 +16,7 @@ import uz.davr.service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by Oybek Karimjanov
@@ -67,6 +70,15 @@ public class UserController {
 
         UserDto userUpdated = userFacade.userToUserDTO(user);
         return new ResponseEntity<>(userUpdated, HttpStatus.OK);
+    }
+
+    @GetMapping("feedBackCountByBranch")
+    public List<BranchByFeedBackCount>  getBranchByFeedBackCount(){
+        return userService.getBranchByFeedBackCount();
+    }
+    @GetMapping("/branchByLevel")
+    public List<BranchByFeedBackLevel> branchByFeedBackLevel(){
+        return userService.branchByFeedBackLevel();
     }
 
 

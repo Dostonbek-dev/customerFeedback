@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import uz.davr.dto.response.CountDto;
+import uz.davr.dto.response.CountStatus;
+import uz.davr.dto.response.EmpFIOAndResult;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
 
@@ -33,26 +34,29 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
             "join image_model img  on img.employee_id = e.id where p.id = :id", nativeQuery = true)
     List<EmployeeList> getAllEmployeesByPosition(@Param("id") Long id);
 
-    @Query(value = "select count(*) as counter from employees", nativeQuery = true)
-    CountDto getEmployeesCount();
+    @Query(value = "select count(*)  as counter from employees", nativeQuery = true)
+    CountStatus getEmployeesCount();
 
-    @Query(value = "select sum(excellent) as counter from employees", nativeQuery = true)
-    CountDto sumExcellentAmount();
+    @Query(value = "select sum(excellent) as counter  from employees", nativeQuery = true)
+    CountStatus sumExcellentAmount();
 
-    @Query(value = "select sum(good) as counter from employees", nativeQuery = true)
-    CountDto sumGoodAmount();
+    @Query(value = "select sum(good) as counter  from employees", nativeQuery = true)
+    CountStatus sumGoodAmount();
 
-    @Query(value = "select sum(bad) as counter from employees", nativeQuery = true)
-    CountDto sumBadAmount();
+    @Query(value = "select sum(bad)  as counter from employees", nativeQuery = true)
+    CountStatus sumBadAmount();
 
-    @Query(value = "select sum(excellent) as counter from employees where user_id = :userId ", nativeQuery = true)
-    CountDto sumExByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(excellent) as counter  from employees where user_id = :userId ", nativeQuery = true)
+    CountStatus sumExByUser(@Param(value = "userId") Long userId);
 
-    @Query(value = "select sum(good) as counter from employees where user_id = :userId", nativeQuery = true)
-    CountDto sumGoodByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(good) as counter  from employees where user_id = :userId", nativeQuery = true)
+    CountStatus sumGoodByUser(@Param(value = "userId") Long userId);
 
-    @Query(value = "select sum(bad) as counter from employees where user_id = :userId", nativeQuery = true)
-    CountDto sumBadByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(bad)  as counter from employees where user_id = :userId", nativeQuery = true)
+    CountStatus sumBadByUser(@Param(value = "userId") Long userId);
+
+    @Query(value = "select * from employees", nativeQuery = true)
+    List<EmpFIOAndResult> getFIOAndResult();
 
 
 }

@@ -12,6 +12,7 @@ public class EmployeeDto {
     private String parentName;
     private Long positionId;
     private String branch;
+    private String phone;
     private ImageModel imageModel;
 }
 

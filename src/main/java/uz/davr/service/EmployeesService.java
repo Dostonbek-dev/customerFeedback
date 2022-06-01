@@ -5,9 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import uz.davr.dto.response.CountDto;
-import uz.davr.dto.response.EmployeeDto;
-import uz.davr.dto.response.EmployeeList;
+import uz.davr.dto.response.*;
 import uz.davr.entity.Employees;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
@@ -34,6 +32,7 @@ public class EmployeesService {
                                String parentName,
                                Long positionId,
                                MultipartFile file,
+                               String phone,
                                Principal principal) throws IOException {
         User user = userService.getCurrentUser(principal);
         Employees employees = new Employees();
@@ -45,6 +44,7 @@ public class EmployeesService {
             Positions positions = byId.get();
             employees.setPositions(positions);
         }
+        employees.setPhone(phone);
         employees.setUser(user);
         employeeRepository.save(employees);
         ImageModel imageModel = new ImageModel();
@@ -53,6 +53,7 @@ public class EmployeesService {
         imageModel.setEmployeeId(employees.getId());
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setPhone(employees.getPhone());
         employeeDto.setFirstname(employees.getFirstname());
         employeeDto.setLastname(employees.getLastname());
         employeeDto.setParentName(employees.getParentName());
@@ -81,15 +82,22 @@ public class EmployeesService {
         Optional<Employees> employeeById = employeeRepository.findById(employeeID);
         if (employeeById.isPresent()){
             Employees employees = employeeById.get();
-            if (ball.equals("excellent")){
-                int excellent = employees.getExcellent()+1;
-                employees.setExcellent(excellent);
-            }else  if (ball.equals("good")){
-                int excellent = employees.getGood()+1;
-                employees.setGood(excellent);
-            }else if (ball.equals("bad")){
-                int excellent = employees.getBad()+1;
-                employees.setBad(excellent);
+            switch (ball) {
+                case "excellent": {
+                    int excellent = employees.getExcellent() + 1;
+                    employees.setExcellent(excellent);
+                    break;
+                }
+                case "good": {
+                    int excellent = employees.getGood() + 1;
+                    employees.setGood(excellent);
+                    break;
+                }
+                case "bad": {
+                    int excellent = employees.getBad() + 1;
+                    employees.setBad(excellent);
+                    break;
+                }
             }
             employeeRepository.save(employees);
             return true;
@@ -102,34 +110,58 @@ public class EmployeesService {
         return employeeRepository.getAllEmployeesByPosition(id);
     }
 
-    public CountDto getCountOfEmp(){
+    public CountStatus getCountOfEmp(){
         return employeeRepository.getEmployeesCount();
     }
 
-    public CountDto sumExAmount(){
+    public CountStatus sumExAmount(){
         return employeeRepository.sumExcellentAmount();
     }
 
-    public CountDto sumGoodAmount(){
+    public CountStatus sumGoodAmount(){
         return employeeRepository.sumGoodAmount();
     }
 
-    public CountDto sumBadAmount(){
+    public CountStatus sumBadAmount(){
         return employeeRepository.sumBadAmount();
     }
 
-    public CountDto sumExByUser(Principal principal){
+    public CountStatus sumExByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumExByUser(user.getId());
     }
 
-    public CountDto sumGoodByUser(Principal principal){
+    public CountStatus sumGoodByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumGoodByUser(user.getId());
     }
 
-    public CountDto sumBadByUser(Principal principal){
+    public CountStatus sumBadByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumBadByUser(user.getId());
+    }
+
+    public Employees getById(Long id) {
+        Optional<Employees> byId = employeeRepository.findById(id);
+        return byId.orElse(null);
+
+    }
+
+    public Employees updateEmployee(Long empId, EmpDto empDto) {
+        Optional<Employees> byId = employeeRepository.findById(empId);
+        if (byId.isPresent()){
+            Employees employees = byId.get();
+            employees.setPhone(empDto.getPhone());
+            employees.setParentName(empDto.getParentName());
+            employees.setFirstname(empDto.getFirstname());
+            employees.setLastname(empDto.getLastname());
+            employeeRepository.save(employees);
+            return employees;
+        }
+        else return null;
+    }
+
+    public List<EmpFIOAndResult> getFIOAndResult(){
+        return employeeRepository.getFIOAndResult();
     }
 }
