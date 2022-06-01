@@ -44,7 +44,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.getAllEmployees());
     }
 
-    @GetMapping("byPosition/{positionId}/{branch}")
+    @GetMapping("/byPosition/{positionId}/{branch}")
     public List<EmployeeList> getEmployeeByUserBranchAndPositionId(@PathVariable Long positionId,
                                                                    @PathVariable String branch,
                                                                    Principal principal){

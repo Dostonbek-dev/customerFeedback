@@ -4,11 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
+import uz.davr.dto.response.CountDto;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
 
-import java.security.Principal;
 import java.util.List;
 
 @Repository
@@ -34,26 +33,26 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
             "join image_model img  on img.employee_id = e.id where p.id = :id", nativeQuery = true)
     List<EmployeeList> getAllEmployeesByPosition(@Param("id") Long id);
 
-    @Query(value = "select count(*) from employees", nativeQuery = true)
-    int getEmployeesCount();
+    @Query(value = "select count(*) as counter from employees", nativeQuery = true)
+    CountDto getEmployeesCount();
 
-    @Query(value = "select sum(excellent) from employees", nativeQuery = true)
-    int sumExcellentAmount();
+    @Query(value = "select sum(excellent) as counter from employees", nativeQuery = true)
+    CountDto sumExcellentAmount();
 
-    @Query(value = "select sum(good) from employees", nativeQuery = true)
-    int sumGoodAmount();
+    @Query(value = "select sum(good) as counter from employees", nativeQuery = true)
+    CountDto sumGoodAmount();
 
-    @Query(value = "select sum(bad) from employees", nativeQuery = true)
-    int sumBadAmount();
+    @Query(value = "select sum(bad) as counter from employees", nativeQuery = true)
+    CountDto sumBadAmount();
 
-    @Query(value = "select sum(excellent) from employees where user_id = :userId ", nativeQuery = true)
-    int sumExByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(excellent) as counter from employees where user_id = :userId ", nativeQuery = true)
+    CountDto sumExByUser(@Param(value = "userId") Long userId);
 
-    @Query(value = "select sum(good) from employees where user_id = :userId", nativeQuery = true)
-    int sumGoodByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(good) as counter from employees where user_id = :userId", nativeQuery = true)
+    CountDto sumGoodByUser(@Param(value = "userId") Long userId);
 
-    @Query(value = "select sum(bad) from employees where user_id = :userId", nativeQuery = true)
-    int sumBadByUser(@Param(value = "userId") Long userId);
+    @Query(value = "select sum(bad) as counter from employees where user_id = :userId", nativeQuery = true)
+    CountDto sumBadByUser(@Param(value = "userId") Long userId);
 
 
 }

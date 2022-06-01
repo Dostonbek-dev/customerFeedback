@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import uz.davr.dto.response.CountDto;
 import uz.davr.dto.response.EmployeeDto;
 import uz.davr.dto.response.EmployeeList;
 import uz.davr.entity.Employees;
@@ -101,33 +102,33 @@ public class EmployeesService {
         return employeeRepository.getAllEmployeesByPosition(id);
     }
 
-    public int getCountOfEmp(){
+    public CountDto getCountOfEmp(){
         return employeeRepository.getEmployeesCount();
     }
 
-    public int sumExAmount(){
+    public CountDto sumExAmount(){
         return employeeRepository.sumExcellentAmount();
     }
 
-    public int sumGoodAmount(){
+    public CountDto sumGoodAmount(){
         return employeeRepository.sumGoodAmount();
     }
 
-    public int sumBadAmount(){
+    public CountDto sumBadAmount(){
         return employeeRepository.sumBadAmount();
     }
 
-    public int sumExByUser(Principal principal){
+    public CountDto sumExByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumExByUser(user.getId());
     }
 
-    public int sumGoodByUser(Principal principal){
+    public CountDto sumGoodByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumGoodByUser(user.getId());
     }
 
-    public int sumBadByUser(Principal principal){
+    public CountDto sumBadByUser(Principal principal){
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumBadByUser(user.getId());
     }
