@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.davr.dto.response.EmpDto;
 import uz.davr.dto.response.EmployeeList;
+import uz.davr.dto.response.MessageResponse;
 import uz.davr.entity.Employees;
 import uz.davr.service.EmployeesService;
 
@@ -123,6 +124,12 @@ public class EmployeeController {
     @GetMapping("/get-fio-result")
     public ResponseEntity<?> getFIOAndResult(){
         return ResponseEntity.ok(employeesService.getFIOAndResult());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponse> deleteEmployee(@PathVariable Long id){
+        MessageResponse messageResponse = employeesService.deleteEmp(id);
+        return ResponseEntity.ok(messageResponse);
     }
 
 }

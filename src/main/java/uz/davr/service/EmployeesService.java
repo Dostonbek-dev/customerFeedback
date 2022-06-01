@@ -63,10 +63,21 @@ public class EmployeesService {
         return employeeDto;
     }
 
-    public String deleteEmp(Long id) {
-        employeeRepository.deleteById(id);
-        LOG.info("Employee is successfully deleted by Id! ");
-        return "Employee is successfully deleted by Id! ";
+    public MessageResponse deleteEmp(Long id) {
+        Optional<Employees> byId = employeeRepository.findById(id);
+        if (byId.isPresent()) {
+            Optional<ImageModel> byEmployeeId = imageRepository.findByEmployeeId(byId.get().getId());
+            byEmployeeId.ifPresent(imageModel -> imageRepository.deleteById(imageModel.getId()));
+            employeeRepository.deleteById(id);
+            LOG.info("Employee is successfully deleted by Id! ");
+            MessageResponse messageResponse = new MessageResponse();
+            messageResponse.setMessage("Employee is successfully deleted by Id! ");
+            return messageResponse;
+        }else {
+            MessageResponse messageResponse = new MessageResponse();
+            messageResponse.setMessage("Employee not found  by Id! ");
+            return messageResponse;
+        }
     }
 
     public List<Employees> getAllEmployees() {
