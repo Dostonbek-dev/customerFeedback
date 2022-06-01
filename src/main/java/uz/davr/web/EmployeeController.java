@@ -104,7 +104,18 @@ public class EmployeeController {
     }
 
     @PutMapping("/updateEmployee/{empId}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long empId , @RequestBody EmpDto empDto){
+    public ResponseEntity<?> updateEmployee(@PathVariable Long empId ,
+                                            @RequestParam String firstname,
+                                            @RequestParam String lastname,
+                                            @RequestParam String parentName,
+                                            @RequestParam String positions,
+                                            @RequestParam String phone
+                                            ){
+        EmpDto empDto=new EmpDto();
+        empDto.setFirstname(firstname);
+        empDto.setLastname(lastname);
+        empDto.setPhone(phone);
+        empDto.setParentName(parentName);
        return ResponseEntity.ok( employeesService.updateEmployee(empId,empDto));
 
     }
