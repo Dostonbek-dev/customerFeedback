@@ -8,5 +8,5 @@ public class SecurityConstants {
     public static final String TOKEN_PREFIX = "";
     public static final String HEADER_STRING = "Authorization";
     public static final String CONTENT_TYPE = "application/json";
-    public static final long EXPIRATION_TIME =  3_600_000; // 1 hour
+    public static final long EXPIRATION_TIME =  3_600_000_0; // 1 hour
 }
