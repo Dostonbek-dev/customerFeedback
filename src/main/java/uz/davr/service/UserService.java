@@ -17,9 +17,7 @@ import uz.davr.exeptions.UserExistException;
 import uz.davr.facade.UserFacade;
 import uz.davr.repository.UserRepository;
 
-import javax.management.relation.Role;
 import java.security.Principal;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,7 +35,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserFacade userFacade;
 
     public User createUser(SignupRequest userIn) {
         User user = new User();
@@ -95,7 +92,7 @@ public class UserService {
         List<User> all = userRepository.findAll();
         return all
                 .stream()
-                .map(userFacade::userToUserDTO)
+                .map(UserFacade::userToUserDTO)
                 .collect(Collectors.toList());
     }
 

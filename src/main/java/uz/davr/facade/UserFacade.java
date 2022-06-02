@@ -9,10 +9,9 @@ import uz.davr.entity.User;
  * Date : 5.20.2022
  * Project Name : instazoo
  */
-@Component
 public class UserFacade {
 
-    public UserDto userToUserDTO(User user){
+    public static UserDto userToUserDTO(User user){
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setBranchCode(user.getBranchCode());
