@@ -195,4 +195,9 @@ public class EmployeesService {
         return employeeRepository.employeeListByBranch(currentUser.getId());
     }
 
+    public List<EmployeeOrderBy>  employeeOrderBy(Principal principal){
+        User currentUser=userService.getCurrentUser(principal);
+        return employeeRepository.employeeOrderBy(currentUser.getId());
+    }
+
 }

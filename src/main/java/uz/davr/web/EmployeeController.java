@@ -152,4 +152,10 @@ public class EmployeeController {
         return ResponseEntity.ok(employeesService.employeeListByBranch(principal));
     }
 
+
+    @GetMapping("/employeeOrderBy")
+    public ResponseEntity<List<EmployeeOrderBy>> employeeOrderBy(Principal principal){
+        return ResponseEntity.ok(employeesService.employeeOrderBy(principal));
+    }
+
 }

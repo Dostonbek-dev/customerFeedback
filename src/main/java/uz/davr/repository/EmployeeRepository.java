@@ -4,10 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import uz.davr.dto.response.CountStatus;
-import uz.davr.dto.response.EmpFIOAndResult;
-import uz.davr.dto.response.EmployeeList;
-import uz.davr.dto.response.EmployeeListByBranch;
+import uz.davr.dto.response.*;
 import uz.davr.entity.Employees;
 
 import java.util.List;
@@ -71,16 +68,32 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
     @Query(value = "select emp.excellent as excellent,\n" +
             "       emp.bad  as bad,\n" +
             "       emp.good as good,\n" +
-            "       emp.first_name as first_name,\n" +
-            "       emp.last_name as last_name,\n" +
-            "       emp.parent_name as parent_name,\n" +
+            "       emp.first_name as firstname,\n" +
+            "       emp.last_name as lastname,\n" +
+            "       emp.parent_name as parentName,\n" +
             "       emp.phone as phone,\n" +
-            "       pos.name as posname\n" +
+            "       pos.name as positions\n" +
             "from employees emp,\n" +
             "    position pos\n" +
             "where pos.id = emp.positions_id and emp.user_id=:user_id",nativeQuery = true)
     List<EmployeeListByBranch> employeeListByBranch(@Param("user_id")  Long user_id);
 
+    @Query(value = "select   sum(emp.excellent) as countEx,\n" +
+            "       emp.excellent as excellent,\n" +
+            "                   emp.bad  as bad,\n" +
+            "                   emp.good as good,\n" +
+            "                   emp.first_name as firstname,\n" +
+            "                   emp.last_name as lastname,\n" +
+            "                   emp.parent_name as parentName,\n" +
+            "                   emp.phone as phone,\n" +
+            "                   pos.name as positions\n" +
+            "from employees emp,\n" +
+            "                position pos\n" +
+            "            where pos.id = emp.positions_id and emp.user_id=:user_id\n" +
+            "group by emp.excellent, emp.bad, emp.good,\n" +
+            "         emp.last_name, emp.first_name,\n" +
+            "         emp.parent_name, emp.phone, pos.name order by countEx DESC",nativeQuery = true)
+    List<EmployeeOrderBy> employeeOrderBy(@Param("user_id")  Long user_id);
 
 
 }
