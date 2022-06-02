@@ -43,15 +43,6 @@ public class PositionService {
 
     }
 
-    public Positions updatePosition(Long id, String positionName) {
-        Positions positionById = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Position is not found by Id "));
-        positionById.setName(positionName);
-        Positions save = repository.save(positionById);
-        LOG.info("Position is updated by Id! " + id);
-        return save;
-    }
-
     public List<Positions> getAll() {
         return repository.findAll();
     }

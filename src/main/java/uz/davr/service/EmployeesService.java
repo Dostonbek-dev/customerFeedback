@@ -46,13 +46,14 @@ public class EmployeesService {
         }
         employees.setPhone(phone);
         employees.setUser(user);
-        employeeRepository.save(employees);
+        Employees save = employeeRepository.save(employees);
         ImageModel imageModel = new ImageModel();
         imageModel.setName(file.getOriginalFilename());
         imageModel.setImageBytes(file.getBytes());
         imageModel.setEmployeeId(employees.getId());
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(save.getId());
         employeeDto.setPhone(employees.getPhone());
         employeeDto.setFirstname(employees.getFirstname());
         employeeDto.setLastname(employees.getLastname());
