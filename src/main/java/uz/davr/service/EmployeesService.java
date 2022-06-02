@@ -189,8 +189,9 @@ public class EmployeesService {
         return employeeRepository.getAllBadBranch(currentUser.getId());
     }
 
-    public List<EmployeeListByBranch>  employeeListByBranch(){
-        return employeeRepository.employeeListByBranch();
+    public List<EmployeeListByBranch>  employeeListByBranch(Principal principal){
+        User currentUser=userService.getCurrentUser(principal);
+        return employeeRepository.employeeListByBranch(currentUser.getId());
     }
 
 }

@@ -4,10 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.davr.dto.response.CountStatus;
-import uz.davr.dto.response.EmpDto;
-import uz.davr.dto.response.EmployeeList;
-import uz.davr.dto.response.MessageResponse;
+import uz.davr.dto.response.*;
 import uz.davr.entity.Employees;
 import uz.davr.service.EmployeesService;
 
@@ -148,6 +145,11 @@ public class EmployeeController {
     public ResponseEntity<CountStatus> getAllBranchEBad(Principal principal) {
         CountStatus allEmployeeByBranch = employeesService.getAllBadByBranch(principal);
         return ResponseEntity.ok(allEmployeeByBranch);
+    }
+
+    @GetMapping("/byBranchEmp")
+    public ResponseEntity<List<EmployeeListByBranch>> employeeListByBranch(Principal principal){
+        return ResponseEntity.ok(employeesService.employeeListByBranch(principal));
     }
 
 }

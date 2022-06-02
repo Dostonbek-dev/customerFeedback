@@ -78,8 +78,8 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
             "       pos.name as posname\n" +
             "from employees emp,\n" +
             "    position pos\n" +
-            "where pos.id = emp.positions_id",nativeQuery = true)
-    List<EmployeeListByBranch> employeeListByBranch();
+            "where pos.id = emp.positions_id and emp.user_id=:user_id",nativeQuery = true)
+    List<EmployeeListByBranch> employeeListByBranch(@Param("user_id")  Long user_id);
 
 
 
