@@ -7,9 +7,9 @@ package uz.davr.dto.response;
  * Project Name : customerFeedback
  */
 public interface EmpFIOAndResult {
-    String getfirst_name();
-    String getlast_name();
-    String getparent_name();
+    String getfirstname();
+    String getlastname();
+    String getparentname();
     int getexcellent();
     int getgood();
     int getbad();
