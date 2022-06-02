@@ -29,7 +29,7 @@ public interface PositionRepository extends JpaRepository<Positions, Long> {
             "                 position pos\n" +
             "            where  emp.positions_id = pos.id  and emp.user_id=:userId\n" +
             "            group by pos.name, pos.id\n" +
-            "            order by counter DESC limit 3 ",nativeQuery = true)
+            "            order by counter DESC ",nativeQuery = true)
     List<PositionByCountNumber> getPositionByCountFeedBackBranch(@Param(value = "userId")Long user_id);
 
 }
