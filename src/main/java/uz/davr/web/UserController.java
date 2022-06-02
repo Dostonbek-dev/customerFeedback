@@ -1,6 +1,5 @@
 package uz.davr.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
@@ -28,17 +27,20 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserFacade userFacade;
-    @Autowired
-    private ResponseErrorValidation errorValidation;
 
-    @GetMapping("/")
+    private final UserService userService;
+
+    private final ResponseErrorValidation errorValidation;
+
+    public UserController(UserService userService, ResponseErrorValidation errorValidation) {
+        this.userService = userService;
+        this.errorValidation = errorValidation;
+    }
+
+    @GetMapping
     public ResponseEntity<UserDto> getCurrentUser(Principal principal){
         User user = userService.getCurrentUser(principal);
-        UserDto userDto = userFacade.userToUserDTO(user);
+        UserDto userDto = UserFacade.userToUserDTO(user);
 
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
@@ -56,8 +58,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserProfile(@PathVariable("userId") String userId) {
         User user = userService.getUserById(Long.parseLong(userId));
-        UserDto userDTO = userFacade.userToUserDTO(user);
-
+        UserDto userDTO = UserFacade.userToUserDTO(user);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
@@ -68,7 +69,7 @@ public class UserController {
 
         User user = userService.updateUser(userDTO, principal);
 
-        UserDto userUpdated = userFacade.userToUserDTO(user);
+        UserDto userUpdated = UserFacade.userToUserDTO(user);
         return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
 

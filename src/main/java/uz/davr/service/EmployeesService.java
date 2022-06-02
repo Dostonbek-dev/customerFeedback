@@ -13,6 +13,7 @@ import uz.davr.entity.User;
 import uz.davr.repository.EmployeeRepository;
 import uz.davr.repository.ImageRepository;
 import uz.davr.repository.PositionRepository;
+
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -73,14 +74,14 @@ public class EmployeesService {
         return employeeRepository.findAll();
     }
 
-    public List<EmployeeList> getEmployeesByBranchAndPositionID(String branch, Long positionId,Principal principal){
+    public List<EmployeeList> getEmployeesByBranchAndPositionID(String branch, Long positionId, Principal principal) {
         User currentUser = userService.getCurrentUser(principal);
         return employeeRepository.getEmployeesByBranchAndPositionID(currentUser.getId(), positionId);
     }
 
-    public boolean feedbackFromCustomer(String ball,Long employeeID){
+    public boolean feedbackFromCustomer(String ball, Long employeeID) {
         Optional<Employees> employeeById = employeeRepository.findById(employeeID);
-        if (employeeById.isPresent()){
+        if (employeeById.isPresent()) {
             Employees employees = employeeById.get();
             switch (ball) {
                 case "excellent": {
@@ -101,42 +102,42 @@ public class EmployeesService {
             }
             employeeRepository.save(employees);
             return true;
-        }else {
-            return  false;
+        } else {
+            return false;
         }
     }
 
-    public List<EmployeeList> getAllEmployeesByPosition(Long id){
+    public List<EmployeeList> getAllEmployeesByPosition(Long id) {
         return employeeRepository.getAllEmployeesByPosition(id);
     }
 
-    public CountStatus getCountOfEmp(){
+    public CountStatus getCountOfEmp() {
         return employeeRepository.getEmployeesCount();
     }
 
-    public CountStatus sumExAmount(){
+    public CountStatus sumExAmount() {
         return employeeRepository.sumExcellentAmount();
     }
 
-    public CountStatus sumGoodAmount(){
+    public CountStatus sumGoodAmount() {
         return employeeRepository.sumGoodAmount();
     }
 
-    public CountStatus sumBadAmount(){
+    public CountStatus sumBadAmount() {
         return employeeRepository.sumBadAmount();
     }
 
-    public CountStatus sumExByUser(Principal principal){
+    public CountStatus sumExByUser(Principal principal) {
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumExByUser(user.getId());
     }
 
-    public CountStatus sumGoodByUser(Principal principal){
+    public CountStatus sumGoodByUser(Principal principal) {
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumGoodByUser(user.getId());
     }
 
-    public CountStatus sumBadByUser(Principal principal){
+    public CountStatus sumBadByUser(Principal principal) {
         User user = userService.getCurrentUser(principal);
         return employeeRepository.sumBadByUser(user.getId());
     }
@@ -149,7 +150,7 @@ public class EmployeesService {
 
     public Employees updateEmployee(Long empId, EmpDto empDto) {
         Optional<Employees> byId = employeeRepository.findById(empId);
-        if (byId.isPresent()){
+        if (byId.isPresent()) {
             Employees employees = byId.get();
             employees.setPhone(empDto.getPhone());
             employees.setParentName(empDto.getParentName());
@@ -157,11 +158,10 @@ public class EmployeesService {
             employees.setLastname(empDto.getLastname());
             employeeRepository.save(employees);
             return employees;
-        }
-        else return null;
+        } else return null;
     }
 
-    public List<EmpFIOAndResult> getFIOAndResult(){
+    public List<EmpFIOAndResult> getFIOAndResult() {
         return employeeRepository.getFIOAndResult();
     }
 }
