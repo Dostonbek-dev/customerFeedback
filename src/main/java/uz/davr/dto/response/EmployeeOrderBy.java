@@ -1,6 +1,7 @@
 package uz.davr.dto.response;
 
-public interface EmployeeListByBranch {
+public interface EmployeeOrderBy {
+    String getcountEx();
     String getexcellent();
     String getbad();
     String getgood();
@@ -9,6 +10,4 @@ public interface EmployeeListByBranch {
     String getparentName();
     String getphone();
     String getpositions();
-};
-
-
+}
