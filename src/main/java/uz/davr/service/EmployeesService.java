@@ -70,7 +70,7 @@ public class EmployeesService {
         if (byId.isPresent()) {
             Optional<ImageModel> byEmployeeId = imageRepository.findByEmployeeId(byId.get().getId());
             byEmployeeId.ifPresent(imageModel -> imageRepository.deleteById(imageModel.getId()));
-            employeeRepository.deleteById(id);
+            employeeRepository.deleteById(byId.get().getId());
             LOG.info("Employee is successfully deleted by Id! ");
             MessageResponse messageResponse = new MessageResponse();
             messageResponse.setMessage("Employee is successfully deleted by Id! ");
