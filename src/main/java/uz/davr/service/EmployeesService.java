@@ -47,13 +47,14 @@ public class EmployeesService {
         }
         employees.setPhone(phone);
         employees.setUser(user);
-        employeeRepository.save(employees);
+        Employees save = employeeRepository.save(employees);
         ImageModel imageModel = new ImageModel();
         imageModel.setName(file.getOriginalFilename());
         imageModel.setImageBytes(file.getBytes());
         imageModel.setEmployeeId(employees.getId());
         imageRepository.save(imageModel);
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(save.getId());
         employeeDto.setPhone(employees.getPhone());
         employeeDto.setFirstname(employees.getFirstname());
         employeeDto.setLastname(employees.getLastname());
@@ -64,10 +65,21 @@ public class EmployeesService {
         return employeeDto;
     }
 
-    public String deleteEmp(Long id) {
-        employeeRepository.deleteById(id);
-        LOG.info("Employee is successfully deleted by Id! ");
-        return "Employee is successfully deleted by Id! ";
+    public MessageResponse deleteEmp(Long id) {
+        Optional<Employees> byId = employeeRepository.findById(id);
+        if (byId.isPresent()) {
+            Optional<ImageModel> byEmployeeId = imageRepository.findByEmployeeId(byId.get().getId());
+            byEmployeeId.ifPresent(imageModel -> imageRepository.deleteById(imageModel.getId()));
+            employeeRepository.deleteById(id);
+            LOG.info("Employee is successfully deleted by Id! ");
+            MessageResponse messageResponse = new MessageResponse();
+            messageResponse.setMessage("Employee is successfully deleted by Id! ");
+            return messageResponse;
+        }else {
+            MessageResponse messageResponse = new MessageResponse();
+            messageResponse.setMessage("Employee not found  by Id! ");
+            return messageResponse;
+        }
     }
 
     public List<Employees> getAllEmployees() {
@@ -164,4 +176,23 @@ public class EmployeesService {
     public List<EmpFIOAndResult> getFIOAndResult() {
         return employeeRepository.getFIOAndResult();
     }
+
+    public CountStatus getAllEmployeeByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+       return employeeRepository.getAllEmployeeByBranch(currentUser.getId());
+    }
+    public CountStatus getAllExcellentByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        return employeeRepository.getAllExcellentBranch(currentUser.getId());
+    }
+    public CountStatus getAllBadByBranch(Principal principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        return employeeRepository.getAllBadBranch(currentUser.getId());
+    }
+
+    public List<EmployeeListByBranch>  employeeListByBranch(Principal principal){
+        User currentUser=userService.getCurrentUser(principal);
+        return employeeRepository.employeeListByBranch(currentUser.getId());
+    }
+
 }

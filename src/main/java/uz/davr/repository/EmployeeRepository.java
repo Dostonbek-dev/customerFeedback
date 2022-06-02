@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import uz.davr.dto.response.CountStatus;
 import uz.davr.dto.response.EmpFIOAndResult;
 import uz.davr.dto.response.EmployeeList;
+import uz.davr.dto.response.EmployeeListByBranch;
 import uz.davr.entity.Employees;
 
 import java.util.List;
@@ -57,6 +58,29 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
 
     @Query(value = "select * from employees", nativeQuery = true)
     List<EmpFIOAndResult> getFIOAndResult();
+
+    @Query(value = "select count(id) as counter from employees where user_id=:userId", nativeQuery = true)
+    CountStatus getAllEmployeeByBranch(@Param(value = "userId") Long userId);
+
+    @Query(value = "select sum (excellent) as counter from employees where user_id=:userId", nativeQuery = true)
+    CountStatus getAllExcellentBranch(@Param(value = "userId") Long userId);
+
+    @Query(value = "select sum (bad) as counter from employees where user_id=:userId", nativeQuery = true)
+    CountStatus getAllBadBranch(@Param(value = "userId") Long userId);
+
+    @Query(value = "select emp.excellent as excellent,\n" +
+            "       emp.bad  as bad,\n" +
+            "       emp.good as good,\n" +
+            "       emp.first_name as first_name,\n" +
+            "       emp.last_name as last_name,\n" +
+            "       emp.parent_name as parent_name,\n" +
+            "       emp.phone as phone,\n" +
+            "       pos.name as posname\n" +
+            "from employees emp,\n" +
+            "    position pos\n" +
+            "where pos.id = emp.positions_id and emp.user_id=:user_id",nativeQuery = true)
+    List<EmployeeListByBranch> employeeListByBranch(@Param("user_id")  Long user_id);
+
 
 
 }

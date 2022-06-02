@@ -1,14 +1,16 @@
 package uz.davr.web;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.davr.dto.response.EmpDto;
-import uz.davr.dto.response.EmployeeList;
+import uz.davr.dto.response.*;
+import uz.davr.entity.Employees;
 import uz.davr.service.EmployeesService;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.security.PublicKey;
 import java.util.List;
 
 /**
@@ -121,6 +123,33 @@ public class EmployeeController {
     @GetMapping("/get-fio-result")
     public ResponseEntity<?> getFIOAndResult() {
         return ResponseEntity.ok(employeesService.getFIOAndResult());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponse> deleteEmployee(@PathVariable Long id) {
+        MessageResponse messageResponse = employeesService.deleteEmp(id);
+        return ResponseEntity.ok(messageResponse);
+    }
+
+    @GetMapping("/byBranchEmployee")
+    public ResponseEntity<CountStatus> getAllEmployeeByBranch(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllEmployeeByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
+    }
+    @GetMapping("/branchExcellent")
+    public ResponseEntity<CountStatus> getAllBranchExcellent(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllExcellentByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
+    }
+    @GetMapping("/branchBad")
+    public ResponseEntity<CountStatus> getAllBranchEBad(Principal principal) {
+        CountStatus allEmployeeByBranch = employeesService.getAllBadByBranch(principal);
+        return ResponseEntity.ok(allEmployeeByBranch);
+    }
+
+    @GetMapping("/byBranchEmp")
+    public ResponseEntity<List<EmployeeListByBranch>> employeeListByBranch(Principal principal){
+        return ResponseEntity.ok(employeesService.employeeListByBranch(principal));
     }
 
 }

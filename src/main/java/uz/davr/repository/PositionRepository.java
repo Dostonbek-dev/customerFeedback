@@ -2,6 +2,7 @@ package uz.davr.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.w3c.dom.stylesheets.LinkStyle;
 import uz.davr.dto.response.PositionByCountNumber;
@@ -18,6 +19,17 @@ public interface PositionRepository extends JpaRepository<Positions, Long> {
             "     position pos\n" +
             "where emp.positions_id = pos.id\n" +
             "group by pos.name, pos.id\n" +
-            "order by counter DESC limit 1 ",nativeQuery = true)
+            "order by counter DESC limit 3 ",nativeQuery = true)
     List<PositionByCountNumber> getPositionByCountFeedBack();
+
+
+
+    @Query(value = "select pos.id, pos.name as positionname, sum(emp.good + emp.bad + emp.excellent) as counter\n" +
+            "            from employees emp,\n" +
+            "                 position pos\n" +
+            "            where  emp.positions_id = pos.id  and emp.user_id=:userId\n" +
+            "            group by pos.name, pos.id\n" +
+            "            order by counter DESC limit 3 ",nativeQuery = true)
+    List<PositionByCountNumber> getPositionByCountFeedBackBranch(@Param(value = "userId")Long user_id);
+
 }
