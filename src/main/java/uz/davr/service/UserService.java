@@ -44,7 +44,12 @@ public class UserService {
         user.setBranchCode(userIn.getBranchCode());
         user.setUsername(userIn.getBranchName());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
-        user.getRoles().add(Roles.USER);
+        if (userIn.getBranchName().equals("admin")){
+            user.getRoles().add(Roles.ADMIN);
+        }else {
+            user.getRoles().add(Roles.USER);
+        }
+
 
         try {
             LOG.info("Saving User {}", userIn.getBranchName());
