@@ -9,7 +9,7 @@ package uz.davr.dto.response;
 public interface EmpFIOAndResult {
     String getfirstname();
     String getlastname();
-    String getparentname();
+    String getparentName();
     int getexcellent();
     int getgood();
     int getbad();
