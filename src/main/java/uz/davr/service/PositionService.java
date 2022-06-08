@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.davr.dto.response.PositionByCountNumber;
+import uz.davr.dto.response.PositionByImage;
 import uz.davr.dto.response.PositionDto;
 import uz.davr.entity.ImageModel;
 import uz.davr.entity.Positions;
@@ -93,5 +94,9 @@ public class PositionService {
     public List<PositionByCountNumber> getPositionByCountBranch(Principal principal) {
         User currentUser = userService.getCurrentUser(principal);
         return repository.getPositionByCountFeedBackBranch(currentUser.getId());
+    }
+
+    public List<PositionByImage> getAllPositionByImage(){
+      return   repository.getAllPositionByImage();
     }
 }

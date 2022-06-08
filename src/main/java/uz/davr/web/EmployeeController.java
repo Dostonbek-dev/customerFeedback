@@ -50,7 +50,7 @@ public class EmployeeController {
     public List<EmployeeList> getEmployeeByUserBranchAndPositionId(@PathVariable Long positionId,
                                                                    @PathVariable String branch,
                                                                    Principal principal) {
-        return employeesService.getEmployeesByBranchAndPositionID(branch, positionId, principal);
+        return employeesService. getEmployeesByBranchAndPositionID(branch, positionId, principal);
     }
 
     @PostMapping("customerFeedback")
@@ -116,6 +116,7 @@ public class EmployeeController {
         empDto.setLastname(lastname);
         empDto.setPhone(phone);
         empDto.setParentName(parentName);
+        empDto.setPositions(positions);
         return ResponseEntity.ok(employeesService.updateEmployee(empId, empDto));
 
     }
@@ -131,7 +132,7 @@ public class EmployeeController {
         return ResponseEntity.ok(messageResponse);
     }
 
-    @GetMapping("/byBranchEmployee")
+    @GetMapping("/ ")
     public ResponseEntity<CountStatus> getAllEmployeeByBranch(Principal principal) {
         CountStatus allEmployeeByBranch = employeesService.getAllEmployeeByBranch(principal);
         return ResponseEntity.ok(allEmployeeByBranch);

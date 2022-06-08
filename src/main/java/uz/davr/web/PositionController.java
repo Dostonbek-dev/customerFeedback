@@ -33,7 +33,7 @@ public class PositionController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(positionService.getAll());
+        return ResponseEntity.ok(positionService.getAllPositionByImage());
     }
 
     @PostMapping("/save")
@@ -64,7 +64,7 @@ public class PositionController {
         PositionDto positionDto = new PositionDto();
         positionDto.setName(name);
         ImageModel imageModel = new ImageModel();
-        if (file.isEmpty()) {
+        if (!file.isEmpty()) {
             imageModel.setPositionId(positionId);
             imageModel.setImageBytes(file.getBytes());
             imageModel.setName(file.getOriginalFilename());

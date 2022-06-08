@@ -164,6 +164,11 @@ public class EmployeesService {
         Optional<Employees> byId = employeeRepository.findById(empId);
         if (byId.isPresent()) {
             Employees employees = byId.get();
+            Optional<Positions> byIdPosition = positionRepository.findById(Long.parseLong(empDto.getPositions()));
+            if (byIdPosition.isPresent()) {
+                Positions positions = byIdPosition.get();
+                employees.setPositions(positions);
+            }
             employees.setPhone(empDto.getPhone());
             employees.setParentName(empDto.getParentName());
             employees.setFirstname(empDto.getFirstname());

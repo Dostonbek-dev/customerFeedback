@@ -55,8 +55,8 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
 
     @Query(value = "select first_name as firstname, " +
             "last_name as lastname, " +
-            "parent_name as parentName, excellent, good, bad" +
-            " from employees", nativeQuery = true)
+            "parent_name as parentname, excellent, good, bad" +
+            " from employees  order by excellent desc ", nativeQuery = true)
     List<EmpFIOAndResult> getFIOAndResult();
 
     @Query(value = "select count(id) as counter from employees where user_id=:userId", nativeQuery = true)
