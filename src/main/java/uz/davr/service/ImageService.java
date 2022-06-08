@@ -62,7 +62,7 @@ public class ImageService {
                                        Long positionId) throws IOException {
         ImageModel imageModel = new ImageModel();
         imageModel.setName(file.getOriginalFilename());
-        imageModel.setImageBytes(compressBytes(file.getBytes()));
+        imageModel.setImageBytes(file.getBytes());
         imageModel.setPositionId(positionId);
         LOG.info("Uploading image to Employee id {}", positionId);
         imageRepository.save(imageModel);
