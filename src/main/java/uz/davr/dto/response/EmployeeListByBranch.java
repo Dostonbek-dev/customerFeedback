@@ -1,6 +1,7 @@
 package uz.davr.dto.response;
 
 public interface EmployeeListByBranch {
+    String getid();
     String getexcellent();
     String getbad();
     String getgood();

@@ -132,7 +132,7 @@ public class EmployeeController {
         return ResponseEntity.ok(messageResponse);
     }
 
-    @GetMapping("/ ")
+    @GetMapping("/byBranchEmployee")
     public ResponseEntity<CountStatus> getAllEmployeeByBranch(Principal principal) {
         CountStatus allEmployeeByBranch = employeesService.getAllEmployeeByBranch(principal);
         return ResponseEntity.ok(allEmployeeByBranch);

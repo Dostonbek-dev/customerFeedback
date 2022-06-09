@@ -68,7 +68,7 @@ public interface EmployeeRepository extends JpaRepository<Employees, Long> {
     @Query(value = "select sum (bad) as counter from employees where user_id=:userId", nativeQuery = true)
     CountStatus getAllBadBranch(@Param(value = "userId") Long userId);
 
-    @Query(value = "select emp.excellent as excellent,\n" +
+    @Query(value = "select emp.id as id, emp.excellent as excellent,\n" +
             "       emp.bad  as bad,\n" +
             "       emp.good as good,\n" +
             "       emp.first_name as firstname,\n" +
